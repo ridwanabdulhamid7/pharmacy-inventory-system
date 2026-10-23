@@ -1,15 +1,17 @@
+const dns = require('dns');
+dns.setServers(['8.8.8.8', '8.8.4.4']);
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const dns = require('dns');
 require('dotenv').config();
+const authRoute = require('./routes/auth'); // 1. Import the route here
 
-dns.setServers(['8.8.8.8', '8.8.4.4']);
+const app = express(); // 2. CREATE 'app' FIRST
 
-
-const app = express();
+// 3. THEN use 'app' for middleware and routes
 app.use(cors());
 app.use(express.json());
+app.use('/api/auth', authRoute); 
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI)
